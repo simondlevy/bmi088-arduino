@@ -81,6 +81,9 @@ class Bmi088Accel {
     bool mapDrdyInt2(bool enable);
     bool getDrdyStatus();
     void readSensor();
+    int16_t getAccelX_raw();
+    int16_t getAccelY_raw();
+    int16_t getAccelZ_raw();
     float getAccelX_mss();
     float getAccelY_mss();
     float getAccelZ_mss();
@@ -174,6 +177,8 @@ class Bmi088Accel {
     const int16_t tZ[3] = {0, 0, -1};
     // convert G to m/s/s
     const float G = 9.807f;
+    // raw values from ADC
+    int16_t _raw[3];
     // accel full scale range
     float accel_range_mss;
     // accel data
@@ -245,7 +250,10 @@ class Bmi088Gyro {
     float getGyroX_rads();
     float getGyroY_rads();
     float getGyroZ_rads();
-  private:
+    int16_t getGyroX_raw();
+    int16_t getGyroY_raw();
+    int16_t getGyroZ_raw();
+   private:
     // available power settings
     enum PowerMode {
       PWR_NORMAL = 0x00,
@@ -309,6 +317,8 @@ class Bmi088Gyro {
     const int16_t tX[3] = {1, 0, 0};
     const int16_t tY[3] = {0, -1, 0};
     const int16_t tZ[3] = {0, 0, -1};
+    // raw values from ADC
+    int16_t _raw[3];
     // convert deg/s to rad/s
     const float D2R = M_PI / 180.0f;
     // gyro full scale range

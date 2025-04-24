@@ -864,14 +864,14 @@ void Bmi088Accel::readSensor()
 {
   /* accel data */
   uint16_t temp_uint11;
-  int16_t accel[3], temp_int11;
+  int16_t temp_int11;
   readRegisters(ACC_ACCEL_DATA_ADDR,9,_buffer);
-  accel[0] = (_buffer[1] << 8) | _buffer[0];
-  accel[1] = (_buffer[3] << 8) | _buffer[2];
-  accel[2] = (_buffer[5] << 8) | _buffer[4];
-  accel_mss[0] = (float) (accel[0] * tX[0] + accel[1] * tX[1] + accel[2] * tX[2]) / 32768.0f * accel_range_mss;
-  accel_mss[1] = (float) (accel[0] * tY[0] + accel[1] * tY[1] + accel[2] * tY[2]) / 32768.0f * accel_range_mss;
-  accel_mss[2] = (float) (accel[0] * tZ[0] + accel[1] * tZ[1] + accel[2] * tZ[2]) / 32768.0f * accel_range_mss;
+  _raw[0] = (_buffer[1] << 8) | _buffer[0];
+  _raw[1] = (_buffer[3] << 8) | _buffer[2];
+  _raw[2] = (_buffer[5] << 8) | _buffer[4];
+  accel_mss[0] = (float) (_raw[0] * tX[0] + _raw[1] * tX[1] + _raw[2] * tX[2]) / 32768.0f * accel_range_mss;
+  accel_mss[1] = (float) (_raw[0] * tY[0] + _raw[1] * tY[1] + _raw[2] * tY[2]) / 32768.0f * accel_range_mss;
+  accel_mss[2] = (float) (_raw[0] * tZ[0] + _raw[1] * tZ[1] + _raw[2] * tZ[2]) / 32768.0f * accel_range_mss;
   /* time data */
   current_time_counter = (_buffer[8] << 16) | (_buffer[7] << 8) | _buffer[6];
   time_counter = current_time_counter - prev_time_counter;
@@ -885,6 +885,21 @@ void Bmi088Accel::readSensor()
     temp_int11 = temp_uint11;
   }
   temp_c = (float) temp_int11 * 0.125f + 23.0f;
+}
+
+int16_t Bmi088Accel::getAccelX_raw()
+{
+  return 0;
+}
+
+int16_t Bmi088Accel::getAccelY_raw()
+{
+  return 0;
+}
+
+int16_t Bmi088Accel::getAccelZ_raw()
+{
+  return 0;
 }
 
 /* returns the x acceleration, m/s/s */
@@ -1420,15 +1435,30 @@ bool Bmi088Gyro::getDrdyStatus()
 void Bmi088Gyro::readSensor()
 {
   /* accel data */
-  int16_t gyro[3];
   readRegisters(GYRO_DATA_ADDR,6,_buffer);
-  gyro[0] = (_buffer[1] << 8) | _buffer[0];
-  gyro[1] = (_buffer[3] << 8) | _buffer[2];
-  gyro[2] = (_buffer[5] << 8) | _buffer[4];
-  gyro_rads[0] = (float) (gyro[0] * tX[0] + gyro[1] * tX[1] + gyro[2] * tX[2]) / 32767.0f * gyro_range_rads;
-  gyro_rads[1] = (float) (gyro[0] * tY[0] + gyro[1] * tY[1] + gyro[2] * tY[2]) / 32767.0f * gyro_range_rads;
-  gyro_rads[2] = (float) (gyro[0] * tZ[0] + gyro[1] * tZ[1] + gyro[2] * tZ[2]) / 32767.0f * gyro_range_rads;
+  _raw[0] = (_buffer[1] << 8) | _buffer[0];
+  _raw[1] = (_buffer[3] << 8) | _buffer[2];
+  _raw[2] = (_buffer[5] << 8) | _buffer[4];
+  gyro_rads[0] = (float) (_raw[0] * tX[0] + _raw[1] * tX[1] + _raw[2] * tX[2]) / 32767.0f * gyro_range_rads;
+  gyro_rads[1] = (float) (_raw[0] * tY[0] + _raw[1] * tY[1] + _raw[2] * tY[2]) / 32767.0f * gyro_range_rads;
+  gyro_rads[2] = (float) (_raw[0] * tZ[0] + _raw[1] * tZ[1] + _raw[2] * tZ[2]) / 32767.0f * gyro_range_rads;
 }
+
+int16_t Bmi088Gyro::getGyroX_raw()
+{
+  return _raw[0];
+}
+
+int16_t Bmi088Gyro::getGyroY_raw()
+{
+  return _raw[1];
+}
+
+int16_t Bmi088Gyro::getGyroZ_raw()
+{
+  return _raw[2];
+}
+
 
 /* returns the x gyro, rad/s */
 float Bmi088Gyro::getGyroX_rads()
