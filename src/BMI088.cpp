@@ -889,17 +889,17 @@ void Bmi088Accel::readSensor()
 
 int16_t Bmi088Accel::getAccelX_raw()
 {
-  return 0;
+  return _raw[0];
 }
 
 int16_t Bmi088Accel::getAccelY_raw()
 {
-  return 0;
+  return _raw[1];
 }
 
 int16_t Bmi088Accel::getAccelZ_raw()
 {
-  return 0;
+  return _raw[2];
 }
 
 /* returns the x acceleration, m/s/s */
