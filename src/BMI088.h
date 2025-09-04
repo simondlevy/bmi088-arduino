@@ -63,12 +63,12 @@ class Bmi088Accel {
       ODR_12_5HZ_BW_1HZ
     };
     enum PinMode {
-      PUSH_PULL,
-      OPEN_DRAIN
+      PIN_MODE_PUSH_PULL,
+      PIN_MODE_OPEN_DRAIN
     };
     enum PinLevel {
-      ACTIVE_HIGH,
-      ACTIVE_LOW
+      PIN_LEVEL_ACTIVE_HIGH,
+      PIN_LEVEL_ACTIVE_LOW
     };
     Bmi088Accel(TwoWire &bus,uint8_t address);
     Bmi088Accel(SPIClass &bus,uint8_t csPin);
@@ -229,12 +229,12 @@ class Bmi088Gyro {
       ODR_100HZ_BW_32HZ = 0x87
     };
     enum PinMode {
-      PUSH_PULL,
-      OPEN_DRAIN
+      PIN_MODE_PUSH_PULL,
+      PIN_MODE_OPEN_DRAIN
     };
     enum PinLevel {
-      ACTIVE_HIGH,
-      ACTIVE_LOW
+      PIN_LEVEL_ACTIVE_HIGH,
+      PIN_LEVEL_ACTIVE_LOW
     };
     Bmi088Gyro(TwoWire &bus,uint8_t address);
     Bmi088Gyro(SPIClass &bus,uint8_t csPin);
@@ -369,12 +369,12 @@ class Bmi088 {
       PIN_4
     };
     enum PinMode {
-      PUSH_PULL,
-      OPEN_DRAIN
+      PIN_MODE_PUSH_PULL,
+      PIN_MODE_OPEN_DRAIN
     };
     enum PinLevel {
-      ACTIVE_HIGH,
-      ACTIVE_LOW
+      PIN_LEVEL_ACTIVE_HIGH,
+      PIN_LEVEL_ACTIVE_LOW
     };
     Bmi088(TwoWire &bus,uint8_t accel_addr,uint8_t gyro_addr);
     Bmi088(SPIClass &bus,uint8_t accel_cs,uint8_t gyro_cs);
