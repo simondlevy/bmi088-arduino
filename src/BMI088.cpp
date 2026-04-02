@@ -618,7 +618,7 @@ int Bmi088Accel::begin()
         /* starting the I2C bus */
         _i2c->begin();
         /* setting the I2C clock */
-        _i2c->setClock(_i2cRate);
+        _i2c->setClock(Bmi088::I2C_RATE);
     }
     /* check device id */
     if (!isCorrectId()) {
@@ -1245,7 +1245,7 @@ int Bmi088Gyro::begin()
         /* starting the I2C bus */
         _i2c->begin();
         /* setting the I2C clock */
-        _i2c->setClock(_i2cRate);
+        _i2c->setClock(Bmi088::I2C_RATE);
     }
     /* check device id */
     if (!isCorrectId()) {

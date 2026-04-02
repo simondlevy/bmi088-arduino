@@ -27,13 +27,16 @@
 #include <SPI.h>  
 
 class Bmi088Accel {
+
     public:
+
         enum Range {
             RANGE_3G = 0x00,
             RANGE_6G = 0x01,
             RANGE_12G = 0x02,
             RANGE_24G = 0x03
         };
+
         enum Odr {
             ODR_1600HZ_BW_280HZ,
             ODR_1600HZ_BW_234HZ,
@@ -99,8 +102,7 @@ class Bmi088Accel {
         // i2c
         uint8_t _address;
         TwoWire *_i2c;
-        const uint32_t _i2cRate = 400000; // 400 kHz
-                                          // spi
+        // spi
         uint8_t _csPin;
         SPIClass *_spi;
         bool _useSPI;
@@ -261,8 +263,7 @@ class Bmi088Gyro {
         // i2c
         uint8_t _address;
         TwoWire *_i2c;
-        const uint32_t _i2cRate = 400000; // 400 kHz
-                                          // spi
+        // spi
         uint8_t _csPin;
         SPIClass *_spi;
         bool _useSPI;
@@ -339,7 +340,11 @@ class Bmi088Gyro {
 };
 
 class Bmi088 {
+
     public:
+
+        static const uint32_t I2C_RATE = 400000; // 400 kHz
+
         enum AccelRange {
             ACCEL_RANGE_3G,
             ACCEL_RANGE_6G,
