@@ -617,6 +617,7 @@ int Bmi088Accel::begin()
     } else {
         /* starting the I2C bus */
         _i2c->begin();
+        delay(100); // sdl: necessary for Teensy4.0
         /* setting the I2C clock */
         _i2c->setClock(Bmi088::I2C_RATE);
     }
@@ -1244,6 +1245,7 @@ int Bmi088Gyro::begin()
     } else {
         /* starting the I2C bus */
         _i2c->begin();
+        delay(100); // sdl: necessary for Teensy4.0
         /* setting the I2C clock */
         _i2c->setClock(Bmi088::I2C_RATE);
     }
