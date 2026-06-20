@@ -53,7 +53,8 @@ void setup()
     while (1) {}
   }
   status = accel.setOdr(Bmi088Accel::ODR_100HZ_BW_19HZ);
-  status = accel.pinModeInt1(Bmi088Accel::PUSH_PULL,Bmi088Accel::ACTIVE_HIGH);
+  status = accel.pinModeInt1(Bmi088Accel::PIN_MODE_PUSH_PULL,
+          Bmi088Accel::PIN_LEVEL_ACTIVE_HIGH);
   status = accel.mapDrdyInt1(true);
 
 
@@ -64,7 +65,8 @@ void setup()
     while (1) {}
   }
   status = gyro.setOdr(Bmi088Gyro::ODR_100HZ_BW_12HZ);
-  status = gyro.pinModeInt3(Bmi088Gyro::PUSH_PULL,Bmi088Gyro::ACTIVE_HIGH);
+  status = gyro.pinModeInt3(Bmi088Gyro::PIN_MODE_PUSH_PULL,
+          Bmi088Gyro::PIN_LEVEL_ACTIVE_HIGH);
   status = gyro.mapDrdyInt3(true);
 
   pinMode(3,INPUT);
