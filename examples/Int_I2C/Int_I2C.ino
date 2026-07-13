@@ -22,19 +22,24 @@
 
 #include "BMI088.h"
 
+/* interrupt pins */
+static const uint8_t ACCEL_DRDY_PIN = 3; 
+static const uint8_t GYRO_DRDY_PIN = 4; 
+
 /* accel object */
-Bmi088Accel accel(Wire,0x18);
+static Bmi088Accel accel(Wire,0x18);
+
 /* gyro object */
-Bmi088Gyro gyro(Wire,0x68);
+static Bmi088Gyro gyro(Wire,0x68);
 
-volatile bool accel_flag, gyro_flag;
+static volatile bool accel_flag, gyro_flag;
 
-void accel_drdy()
+static void accel_drdy()
 {
     accel_flag = true;
 }
 
-void gyro_drdy()
+static void gyro_drdy()
 {
     gyro_flag = true;
 }
@@ -70,9 +75,10 @@ void setup()
     status = gyro.mapDrdyInt3(true);
 
     pinMode(3,INPUT);
-    attachInterrupt(3,accel_drdy,RISING);
+    attachInterrupt(ACCEL_DRDY_PIN, accel_drdy, RISING);
+
     pinMode(4,INPUT);
-    attachInterrupt(4,gyro_drdy,RISING);  
+    attachInterrupt(GYRO_DRDY_PIN, gyro_drdy, RISING);  
 }
 
 void loop() 
