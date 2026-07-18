@@ -23,6 +23,10 @@
 
 #include "BMI088.h"
 
+#ifndef MSBFIRST
+#define MSBFIRST SPI_MSBFIRST
+#endif
+
 /* Macros to get and set register fields */
 #define GET_FIELD(regname,value) ((value & regname##_MASK) >> regname##_POS)
 #define	SET_FIELD(regval,regname,value) ((regval & ~regname##_MASK) | ((value << regname##_POS) & regname##_MASK))
