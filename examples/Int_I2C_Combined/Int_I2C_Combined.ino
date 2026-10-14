@@ -24,22 +24,22 @@
 
 #include "BMI088.h"
 
-static const uint8_t GYRO_DRDY_PIN = 4; 
+static const uint8_t DRDY_PIN = 4; 
 
-static const bool REPORT_FREQ_ONLY = true;
+static const bool REPORT_FREQ_ONLY = false;
 
 static auto imu_ = Bmi088(Wire, 0x18, 0x68);
 
-static volatile bool gyro_flag_;
+static volatile bool interrupt_flag_;
 
-static auto Okay(const int status) -> bool
+static auto okay(const int status) -> bool
 {
     return status >= 0;
 }
 
-static void GyroDrdy()
+static void drdy()
 {
-    gyro_flag_ = true;
+    interrupt_flag_ = true;
 }
 
 static void PrintFloat(const float x)
@@ -54,11 +54,11 @@ void setup()
     while(!Serial) {}
 
     if (!(
-                Okay(imu_.begin())
+                okay(imu_.begin())
 
-                && Okay(imu_.setOdr(Bmi088::ODR_1000HZ))
+                && okay(imu_.setOdr(Bmi088::ODR_1000HZ))
 
-                && Okay(imu_.setRange(Bmi088::ACCEL_RANGE_24G,
+                && okay(imu_.setRange(Bmi088::ACCEL_RANGE_24G,
                         Bmi088::GYRO_RANGE_2000DPS))
 
                 && imu_.pinModeDrdy(
@@ -74,19 +74,19 @@ void setup()
         }
     }
 
-    pinMode(GYRO_DRDY_PIN, INPUT);
-    attachInterrupt(GYRO_DRDY_PIN, GyroDrdy, RISING);  
+    pinMode(DRDY_PIN, INPUT);
+    attachInterrupt(DRDY_PIN, drdy, RISING);  
 }
 
 void loop() 
 {
     static int count_;
 
-    if (gyro_flag_) {
+    if (interrupt_flag_) {
 
         imu_.readSensor();
 
-        gyro_flag_ = false;
+        interrupt_flag_ = false;
 
         if (REPORT_FREQ_ONLY) {
             count_++;
