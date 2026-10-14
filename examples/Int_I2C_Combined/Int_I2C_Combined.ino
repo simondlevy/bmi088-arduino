@@ -24,7 +24,6 @@
 
 #include "BMI088.h"
 
-static const uint8_t ACCEL_DRDY_PIN = 3; 
 static const uint8_t GYRO_DRDY_PIN = 4; 
 
 static auto imu_ = Bmi088(Wire, 0x18, 0x68);
@@ -57,8 +56,6 @@ void setup()
                 && imu_.pinModeDrdy(
                     Bmi088::PIN_MODE_PUSH_PULL, Bmi088::PIN_LEVEL_ACTIVE_HIGH)
 
-                && imu_.mapSync(Bmi088::PIN_3)
-
                 && imu_.mapDrdy(Bmi088::PIN_1)
 
          )) {
@@ -69,27 +66,45 @@ void setup()
         }
     }
 
-    pinMode(4,INPUT);
+    pinMode(GYRO_DRDY_PIN, INPUT);
     attachInterrupt(GYRO_DRDY_PIN, GyroDrdy, RISING);  
 }
 
 void loop() 
 {
-    static int gyro_count_;
+    static int count_;
     static uint32_t msec_;
 
     if (gyro_flag_) {
+
         imu_.readSensor();
         gyro_flag_ = false;
-        gyro_count_++;
+        count_++;
+
+        Serial.print("accel: ");
+        Serial.print(imu_.getAccelX_mss());
+        Serial.print("mss  ");
+        Serial.print(imu_.getAccelY_mss());
+        Serial.print("mss  ");
+        Serial.print(imu_.getAccelZ_mss());
+        Serial.print("mss  ");
+        Serial.print(imu_.getTemperature_C());
+        Serial.print("deg | ");
+        Serial.print("gyro: ");
+        Serial.print(imu_.getGyroX_rads());
+        Serial.print("rps ");
+        Serial.print(imu_.getGyroY_rads());
+        Serial.print("rps ");
+        Serial.print(imu_.getGyroZ_rads());
+        Serial.print("rps\n");
     }
 
     const auto msec = millis();
     if (msec - msec_ > 1000) {
-        if (gyro_count_ > 0) {
-            printf("gyro:%d\n", gyro_count_);
+        if (count_ > 0) {
+            printf("gyro:%d\n", count_);
         }
-        gyro_count_ = 0;
+        count_ = 0;
         msec_ = msec;
     }
 }

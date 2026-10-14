@@ -51,6 +51,7 @@ void setup()
     Serial.begin(115200);
     while(!Serial) {}
     /* start the sensors */
+
     status = accel.begin();
     if (status < 0) {
         Serial.println("Accel Initialization Error");
@@ -61,7 +62,6 @@ void setup()
     status = accel.pinModeInt1(Bmi088Accel::PIN_MODE_PUSH_PULL,
             Bmi088Accel::PIN_LEVEL_ACTIVE_HIGH);
     status = accel.mapDrdyInt1(true);
-
 
     status = gyro.begin();
     if (status < 0) {
