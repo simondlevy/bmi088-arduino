@@ -40,6 +40,12 @@ static void GyroDrdy()
     gyro_flag_ = true;
 }
 
+static void PrintFloat(const float x)
+{
+    Serial.print(x > 0 ? "+" : x < 0 ? "" : " ");
+    Serial.print(x, 4);
+}
+
 void setup() 
 {
     Serial.begin(115200);
@@ -72,39 +78,28 @@ void setup()
 
 void loop() 
 {
-    static int count_;
-    static uint32_t msec_;
-
     if (gyro_flag_) {
 
         imu_.readSensor();
+
         gyro_flag_ = false;
-        count_++;
 
         Serial.print("accel: ");
-        Serial.print(imu_.getAccelX_mss());
-        Serial.print("mss  ");
-        Serial.print(imu_.getAccelY_mss());
-        Serial.print("mss  ");
-        Serial.print(imu_.getAccelZ_mss());
-        Serial.print("mss  ");
-        Serial.print(imu_.getTemperature_C());
-        Serial.print("deg | ");
+        PrintFloat(imu_.getAccelX_mss());
+        Serial.print(" m/s^2  ");
+        PrintFloat(imu_.getAccelY_mss());
+        Serial.print(" m/s^2  ");
+        PrintFloat(imu_.getAccelZ_mss());
+        Serial.print(" m/s^2  ");
+        PrintFloat(imu_.getTemperature_C());
+        Serial.print(" degC | ");
         Serial.print("gyro: ");
-        Serial.print(imu_.getGyroX_rads());
-        Serial.print("rps ");
-        Serial.print(imu_.getGyroY_rads());
-        Serial.print("rps ");
-        Serial.print(imu_.getGyroZ_rads());
-        Serial.print("rps\n");
-    }
+        PrintFloat(imu_.getGyroX_rads());
+        Serial.print(" rad/s ");
+        PrintFloat(imu_.getGyroY_rads());
+        Serial.print(" rad/s ");
+        PrintFloat(imu_.getGyroZ_rads());
+        Serial.print(" rad/s\n");
+     }
 
-    const auto msec = millis();
-    if (msec - msec_ > 1000) {
-        if (count_ > 0) {
-            printf("gyro:%d\n", count_);
-        }
-        count_ = 0;
-        msec_ = msec;
-    }
 }
