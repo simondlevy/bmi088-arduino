@@ -1776,6 +1776,21 @@ float Bmi088::getAccelZ_mss()
     return accel->getAccelZ_mss();
 }
 
+int16_t Bmi088::getAccelX_raw()
+{
+    return accel->getAccelX_raw();
+}
+
+int16_t Bmi088::getAccelY_raw()
+{
+    return accel->getAccelY_raw();
+}
+
+int16_t Bmi088::getAccelZ_raw()
+{
+    return accel->getAccelZ_raw();
+}
+
 float Bmi088::getTemperature_C()
 {
     return accel->getTemperature_C();
@@ -1799,6 +1814,21 @@ float Bmi088::getGyroY_rads()
 float Bmi088::getGyroZ_rads()
 {
     return gyro->getGyroZ_rads();
+}
+
+int16_t Bmi088::getGyroX_raw()
+{
+    return gyro->getGyroX_raw();
+}
+
+int16_t Bmi088::getGyroY_raw()
+{
+    return gyro->getGyroY_raw();
+}
+
+int16_t Bmi088::getGyroZ_raw()
+{
+    return gyro->getGyroZ_raw();
 }
 
 bool Bmi088::writeFeatureConfig()

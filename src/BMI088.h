@@ -391,11 +391,17 @@ class Bmi088 {
         float getAccelX_mss();
         float getAccelY_mss();
         float getAccelZ_mss();
+        int16_t getAccelX_raw();
+        int16_t getAccelY_raw();
+        int16_t getAccelZ_raw();
         float getTemperature_C();
         uint64_t getTime_ps();
         float getGyroX_rads();
         float getGyroY_rads();
         float getGyroZ_rads();  
+        int16_t getGyroX_raw();
+        int16_t getGyroY_raw();
+        int16_t getGyroZ_raw();
     private:
         Bmi088Accel *accel;
         Bmi088Gyro *gyro;
