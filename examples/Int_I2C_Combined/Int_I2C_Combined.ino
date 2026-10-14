@@ -26,6 +26,8 @@
 
 static const uint8_t GYRO_DRDY_PIN = 4; 
 
+static const bool REPORT_FREQ_ONLY = true;
+
 static auto imu_ = Bmi088(Wire, 0x18, 0x68);
 
 static volatile bool gyro_flag_;
@@ -78,28 +80,53 @@ void setup()
 
 void loop() 
 {
+    static int count_;
+
     if (gyro_flag_) {
 
         imu_.readSensor();
 
         gyro_flag_ = false;
 
-        Serial.print("accel: ");
-        PrintFloat(imu_.getAccelX_mss());
-        Serial.print(" m/s^2  ");
-        PrintFloat(imu_.getAccelY_mss());
-        Serial.print(" m/s^2  ");
-        PrintFloat(imu_.getAccelZ_mss());
-        Serial.print(" m/s^2  ");
-        PrintFloat(imu_.getTemperature_C());
-        Serial.print(" degC | ");
-        Serial.print("gyro: ");
-        PrintFloat(imu_.getGyroX_rads());
-        Serial.print(" rad/s ");
-        PrintFloat(imu_.getGyroY_rads());
-        Serial.print(" rad/s ");
-        PrintFloat(imu_.getGyroZ_rads());
-        Serial.print(" rad/s\n");
-     }
+        if (REPORT_FREQ_ONLY) {
+            count_++;
+        }
 
+        else {
+            Serial.print("accel: ");
+            PrintFloat(imu_.getAccelX_mss());
+            Serial.print(" m/s^2  ");
+            PrintFloat(imu_.getAccelY_mss());
+            Serial.print(" m/s^2  ");
+            PrintFloat(imu_.getAccelZ_mss());
+            Serial.print(" m/s^2  ");
+            PrintFloat(imu_.getTemperature_C());
+            Serial.print(" degC | ");
+            Serial.print("gyro: ");
+            PrintFloat(imu_.getGyroX_rads());
+            Serial.print(" rad/s ");
+            PrintFloat(imu_.getGyroY_rads());
+            Serial.print(" rad/s ");
+            PrintFloat(imu_.getGyroZ_rads());
+            Serial.print(" rad/s\n");
+        }
+    }
+
+    if (REPORT_FREQ_ONLY) {
+
+        static uint32_t msec_;
+
+        const auto msec = millis();
+
+        if (msec - msec_ > 1000) {
+
+            if (count_ > 0) {
+                Serial.print(count_);
+                Serial.println(" Hz");
+            }
+
+            count_ = 0;
+            msec_ = msec;
+        }
+    }
 }
